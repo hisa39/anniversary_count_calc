@@ -8,8 +8,15 @@
 </head>
 <body>
     <section>
-        <p>いまから<span id="timer"></span></p>
+        <form action="#">
+            <input type="date" id="calendar" name="birthDay" value="1990-01-01" max="9999-12-31">
+            <input type="time" name="birthTime" id="birthTime" value="00:00:00" required>
+        <p>いまから<span id="fullTimer"></span></p>
+        <p>いまから<span id="hoursTimer"></span></p>
+        <p>いまから<span id="minTimer"></span></p>
+        <p>いまから<span id="secTimer"></span></p>
+        </form>
     </section>
-    <script src="birth.js" charset="UTF-8"></script>
+    <script src="main.js" charset="UTF-8"></script>
 </body>
 </html>
