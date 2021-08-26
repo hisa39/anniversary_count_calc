@@ -1,8 +1,5 @@
 'use strict';
 
-let hoge = document.getElementsByClassName(calendar).value;
-console.log(hoge);
-
 let sec,min,hours,days,month,myTime;
 let myBirthDays = 0;
 let birthYear = 0;
@@ -10,28 +7,32 @@ let birthMonth = 0;
 let birthDays = 0;
 let now = 0;
 
-//入力された日時を取得
+// 入力された日時を取得
 document.getElementById('calendar').onchange = function () {
     const num = document.getElementById('calendar').value;
     myBirthDays = new Date(num);
-    alert(myBirthDays);
+    // 西暦を取得
     birthYear = myBirthDays.getFullYear();
     console.log(birthYear);
+    // 誕生月を取得
     birthMonth = myBirthDays.getMonth();
     console.log(birthMonth);
+    // 誕生日を取得
     birthDays = myBirthDays.getDate();
     console.log(birthDays);
-    setInterval(myBirthHours, 1000);
+
+    alert(`あなたの誕生日は${birthYear}年${birthMonth+1}月${birthDays}日ですね!`);
+     setInterval(myBirthFull, 1000);
 }
 
-//誕生日の時間から現在までの時間を秒で取得
+// 誕生日の時間から現在までの時間を秒で取得
 function countdown(birth){
     now = new Date();
     const time = ( now.getTime() - birth.getTime() ) /1000;
     return time;
 }
 
-//生まれてからの時間を年から表示
+// 生まれてからの時間を年から表示
 function myBirthFull(){
     myTime = countdown(myBirthDays);
     sec = Math.floor(myTime) % 60;
@@ -39,83 +40,164 @@ function myBirthFull(){
     hours = Math.floor(myTime / 60 / 60) % 24;
     days = Math.floor(myTime / 60 / 60 / 24);
     const nowMonth = now.getMonth() + 1;
-    const birthMonth = myBirth.getMonth() + 1;
-    const nowDay = now.Date();
-    const birthDay = myBirth.getDate();
-    const birthHours = myBirth.getHours();
+    const birthMonth = myBirthDays.getMonth() + 1;
+    const nowDay = now.getDate();
+    const birthDay = myBirthDays.getDate();
+    const birthHours = myBirthDays.getHours();
     const nowHours = now.getHours();
-    const birthMin = myBirth.getMinutes();
+    const birthMin = myBirthDays.getMinutes();
     const nowMin = now.getMinutes();
-    const birthSec = myBirth.getSeconds();
+    const birthSec = myBirthDays.getSeconds();
     const nowSec = now.getSeconds();
 
     const nowYear = now.getFullYear();
-    const birthYear = myBirth.getFullYear();
+    const birthYear = myBirthDays.getFullYear();
     const now_birthYear = nowYear - birthYear;
+    let now_birthMonth = 0;
+    let now_birthDay = 0;
 
-// 誕生月より今月の方が大きい場合
+// 誕生月より今月の方が大きい時
     if(nowMonth > birthMonth){
 
-        //誕生月が2月だった場合
-        if( birthMonth === 2){
-
-        
-        //誕生日より今日の方が大きい
-        }else if(nowDay > birthDay || 
-            //日付が同じ時、時間は大きい
+        // 誕生日より今日の方が大きい
+        if(nowDay > birthDay || 
+            // 日付が同じ時、現在の時間の方が大きい
             (nowDay === birthDay && (nowHours > birthHours 
-                //時間も同じ時、分は大きい
+                // 時間も同じ時、現在の分の方が大きい
                 || (nowHours === birthHours && (nowMin > birthMin 
-                    //分も同じ時、秒は大きい
+                    // 分も同じ時、現在の秒の方が大きい
                     || (nowMin === birthMin && (nowSec >= birthSec))))))
                     ){
 
-                        now_birthMonth = nowMonth - birthMonth
-                        now_birthDay = nowDay - birthDay
+                        now_birthMonth = nowMonth - birthMonth;
+                        now_birthDay = nowDay - birthDay;
         
-        //誕生日より今日のほうが小さい
+        // 誕生日より今日のほうが小さい
         }else if(nowDay < birthDay ||
-            //
+            // 日付が同じ時、現在の時間の方が小さい
             (nowDay === birthDay && ( nowHours > birthHours
-                //
+                // 時間も同じ時、現在の分の方が小さい
                 || (nowHours === birthHours && ( nowMin > birthMin
-                    //
+                    // 分も同じ時、現在の秒の方が小さい
                     || ( nowMin === birthMin && ( nowSec >= birthSec))))))
                     ){
+                        now_birthMonth = nowMonth - birthMonth - 1;
 
+                        // 誕生月が2月だった場合
+                        if(birthMonth === 2){
+                            
+                            // うるう年か判別
+                            if(nowYear % 400 === 0 || (nowYear % 100 != 0 && nowYear % 4 === 0)){
+                                now_birthDay = nowDay + (29 - birthDay);
+                            } else {
+                                now_birthDay = nowDay + (28 - birthDay);
+                            }
+
+                            // 誕生月が30日の月だった場合の日付
+                        }else if(birthMonth === 4 || birthMonth === 6 || birthMonth === 9 || birthMonth === 11){
+                            now_birthDay = nowDay + (30 - birthDay);
+
+                            // 誕生月が31日の月だった場合の日付
+                        } else {
+                            now_birthDay = nowDay + (31 - birthDay);
+                        }
         }
+
+    // 誕生月より今月の方が小さい時
+    }else if(nowMonth < birthMonth){
+        now_birthYear -= 1;
+                // 誕生日より今日の方が大きい
+                if(nowDay > birthDay || 
+                    // 日付が同じ時、現在の時間の方が大きい
+                    (nowDay === birthDay && (nowHours > birthHours 
+                        // 時間も同じ時、現在の分の方が大きい
+                        || (nowHours === birthHours && (nowMin > birthMin 
+                            // 分も同じ時、現在の秒の方が大きい
+                            || (nowMin === birthMin && (nowSec >= birthSec))))))
+                            ){
+
+                                now_birthMonth = nowMonth + (12-birthMonth);
+                                now_birthDay = nowDay - birthDay;
+                
+                // 誕生日より今日のほうが小さい
+                }else if(nowDay < birthDay ||
+                    // 日付が同じ時、現在の時間の方が小さい
+                    (nowDay === birthDay && ( nowHours > birthHours
+                        // 時間も同じ時、現在の分の方が小さい
+                        || (nowHours === birthHours && ( nowMin > birthMin
+                            // 分も同じ時、現在の秒の方が小さい
+                            || ( nowMin === birthMin && ( nowSec >= birthSec))))))
+                            ){
+                                now_birthMonth = nowMonth + (12-birthMonth) -1;
+        
+                                // 先月が2月だった場合
+                                if(nowMonth === 3){
+                                    
+                                    // うるう年か判別
+                                    if(nowYear % 400 === 0 || (nowYear % 100 != 0 && nowYear % 4 === 0)){
+                                        now_birthDay = 29 - (birthDay - nowDay);
+                                    } else {
+                                        now_birthDay = 28 - ( birthDay - nowDay);
+                                    }
+        
+                                    // 先月が30日の月だった場合の日付
+                                }else if(nowMonth === 5 || nowMonth === 7 || nowMonth === 10 || nowMonth === 12){
+                                    now_birthDay = 30 - (birthDay - nowDay);
+        
+                                    // 先月が31日の月だった場合の日付
+                                } else {
+                                    now_birthDay = 31 - (birthDay - nowDay);
+                                }
+                            }
+    // 誕生月と今月が同じ時
+    }else if (nowMonth === birthMonth){
+
+                // 誕生日より今日の方が大きい
+                if(nowDay > birthDay || 
+                    // 日付が同じ時、現在の時間の方が大きい
+                    (nowDay === birthDay && (nowHours > birthHours 
+                        // 時間も同じ時、現在の分の方が大きい
+                        || (nowHours === birthHours && (nowMin > birthMin 
+                            // 分も同じ時、現在の秒の方が大きい
+                            || (nowMin === birthMin && (nowSec >= birthSec))))))
+                            ){
+                                now_birthMonth = nowMonth - birthMonth;
+                                now_birthDay = nowDay - birthDay;
+                
+                // 誕生日より今日のほうが小さい
+                }else if(nowDay < birthDay ||
+                    // 日付が同じ時、現在の時間の方が小さい
+                    (nowDay === birthDay && ( nowHours > birthHours
+                        // 時間も同じ時、現在の分の方が小さい
+                        || (nowHours === birthHours && ( nowMin > birthMin
+                            // 分も同じ時、現在の秒の方が小さい
+                            || ( nowMin === birthMin && ( nowSec >= birthSec))))))
+                            ){
+                                now_birthYear -= 1;
+                                now_birthMonth = 11;
+        
+                                // 先月が2月だった場合
+                                if(nowMonth === 3){
+                                    
+                                    // うるう年か判別
+                                    if(nowYear % 400 === 0 || (nowYear % 100 != 0 && nowYear % 4 === 0)){
+                                        now_birthDay = 29 - (birthDay - nowDay);
+                                    } else {
+                                        now_birthDay = 28 - ( birthDay - nowDay);
+                                    }
+        
+                                    // 先月が30日の月だった場合の日付
+                                }else if(nowMonth === 5 || nowMonth === 7 || nowMonth === 10 || nowMonth === 12){
+                                    now_birthDay = 30 - (birthDay - nowDay);
+        
+                                    // 先月が31日の月だった場合の日付
+                                } else {
+                                    now_birthDay = 31 - (birthDay - nowDay);
+                                }
+                            }
     }
 
-
-
-// 現在の月が誕生月より大きい、現在の日は誕生日より小さい
-    else if(nowMonth > birthMonth && (nowDay < birthDay || (nowDay === birthDay && (nowHours < birthHours || (nowHours === birthHours && (nowMin < birthMin || (nowMin === birthMin && (nowSec < birthSec)))))))){
-        
-        now_birthMonth = nowMonth - birthMonth -1;
-        
-        // 誕生月が30日の月だった場合の日付
-        if(birthDay === 4 || birthDay === 6 || birthDay === 9 || birthDay === 11){
-            
-            now_birthDay = nowDay + (30 - birthDay);
-        // 誕生月が2月だった場合の日付
-        }else if (birthDay === 2 ){
-            // うるう年か判別させる
-            if((birthYear % 400 ===0) || ((birthYear % 100 !=0) && (birthYear % 4 ===0))){
-                now_birthDay = nowDay + (29 - birthDay);
-            }else{
-                now_birthDay = nowDay + (28 - birthDay);
-            }
-        }else {
-        // 誕生月が31日の月だった場合の日付
-            now_birthDay = nowDay + (31 - birthDay);
-        }
-// 現在の月が誕生月よ小さい、現在の日は誕生日より大きい
-    }else if(nowMonth < birthMonth && (nowDay > birthDay || (nowDay === birthDay && (nowHours > birthHours || (nowHours === birthHours && (nowMin > birthMin || (nowMin === birthMin && (nowSec >= birthSec)))))))){
-
-    }
-// 現在は誕生日より月、日、時間すべて小さい
-// 現在と誕生月が同じ
-    document.getElementById('fullTimer').textContent = `${now_birthYear}年${days}日${hours}時間${min}分${sec}秒経過`;
+    document.getElementById('fullTimer').textContent = `${now_birthYear}年${now_birthMonth}ヶ月${now_birthDay}日${hours}時間${min}分${sec}秒経過`;
     //refreshFull();
 }
 
@@ -194,4 +276,3 @@ function refreshSec(){
     setTimeout(myBirthSec, 1000);
 }
 
-//myBirthFull();
