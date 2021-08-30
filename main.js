@@ -9,6 +9,11 @@ let anniversaryHours = 0;
 let anniversaryMin = 0;
 let anniversarySec = 0;
 let now = new Date();
+let jisa = 540;
+let jisaSec = jisa *60 *1000;
+let anniversaryTime = 0;
+let nowTime = 0;
+
 
 // 入力された日時を取得
 document.getElementById('calendar').onchange = function () {
@@ -77,16 +82,28 @@ document.getElementById("create").onclick = function () {
 //bookmarkが変更された時に日時を変える
 document.getElementById("titleName" ).onchange = function(){
     myAnniversaryDays = document.getElementById("titleName" ).value;
-    const calendarYear = myAnniversaryDays.getFullYear();
-    const calendarMonth = myAnniversaryDays.getMonth();
-    const calendarDay = myAnniversaryDays.getDate();
-    document.getElementById("calendar").value = calendarYear,calendarMonth,calendarDay;
+    console.log(myAnniversaryDays);
+    chYear = myAnniversaryDays.getFullYear();
+    chMonth = myAnniversaryDays.getMonth();
+    chDay = myAnniversaryDays.getDate();
+    console.log(chYear);
+    console.log(chMonth);
+    console.log(chDay);
+    document.getElementById("calendar").value = (chYear-chMonth-chDay);
+    // const calendarYear = myAnniversaryDays.getFullYear();
+    // const calendarMonth = myAnniversaryDays.getMonth();
+    // const calendarDay = myAnniversaryDays.getDate();
+   // document.getElementById("calendar").value = calendarYear,calendarMonth,calendarDay;
 }
 
 // 誕生日の時間から現在までの時間を秒で取得
 function myAnniversaryCount(myAnniversaryDays) {
     now = new Date();
-    const time = (now.getTime() - myAnniversaryDays.getTime()) / 1000;
+    nowTime = now.getTime();
+    const num = document.getElementById('calendar').value;
+    myAnniversaryDays = new Date(num);
+    anniversaryTime = myAnniversaryDays.getTime() -jisaSec;
+    const time = (nowTime - anniversaryTime) / 1000;
     return time;
 }
 
@@ -103,7 +120,7 @@ function myAnniversaryCountFull() {
     const nowMin = now.getMinutes();
     const nowSec = now.getSeconds();
     const nowYear = now.getFullYear();
-    const now_anniversaryYear = nowYear - anniversaryYear;
+    let now_anniversaryYear = nowYear - anniversaryYear;
     let now_anniversaryMonth = 0;
     let now_anniversaryDay = 0;
 
@@ -156,6 +173,7 @@ function myAnniversaryCountFull() {
 
         // 誕生月より今月の方が小さい時
     } else if (nowMonth < anniversaryMonth) {
+
         now_anniversaryYear -= 1;
         // 誕生日より今日の方が大きい
         if (nowDay > anniversaryDays ||
