@@ -11,9 +11,23 @@ body {
 }
 header h1{
     margin-top: 50px;
+    font-size: 50px;
+    background: -webkit-linear-gradient(10deg, #065ef6, #bc65dc 25%, #eb5234);
+    background-size: 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    animation: textAnime 10s infinite;
 }
-form{
 
+@keyframes textAnime{
+    0%{background-position: 0% 50%}
+    50%{background-position: 100% 50%}
+    100%{background-position: 0% 50%}
+}
+
+form{
+ 
     margin: 40px;
     
 }
