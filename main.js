@@ -1,6 +1,6 @@
 'use strict';
 
-let sec, min, hours, days, month, calcTime;
+let sec, min, hours, days, month, secTime, minTime, hoursTime, dayTime, monthTime, calcTime, monthNum, timerId;
 let myAnniversaryDays = new Date(1990, 1, 1, 0, 0);
 let anniversaryYear = 1990;
 let anniversaryMonth = 1;
@@ -10,10 +10,9 @@ let anniversaryMin = 0;
 let anniversarySec = 0;
 let now = new Date();
 let jisa = 540;
-let jisaSec = jisa *60 *1000;
+let jisaSec = jisa * 60 * 1000;
 let anniversaryTime = 0;
 let nowTime = 0;
-
 
 // 入力された日時を取得
 document.getElementById('calendar').onchange = function () {
@@ -55,14 +54,60 @@ document.getElementById('min').onchange = function () {
 
 //ボタンが押されたらfunctionを実行
 document.getElementById("calc").onclick = function () {
-    myAnniversaryCountFull();
+    let displayTime = document.getElementById("displayTime").value;
+    if (displayTime === "full") {
+
+        myAnniversaryCountFull();
+
+    } else if (displayTime === "month") {
+
+        myAnniversaryCountMonth();
+
+    } else if (displayTime === "day") {
+
+        myAnniversaryCountDay();
+
+    } else if (displayTime === "hours") {
+
+        myAnniversaryCountHours();
+
+    } else if (displayTime === "min") {
+
+        myAnniversaryCountMin();
+
+    } else if (displayTime === "sec") {
+
+        myAnniversaryCountSec();
+    }
+
+    const element = document.getElementById("clearTime");
+    element.hidden = false;
+
 }
+
+//停止ボタンが押された時の処理
+document.getElementById("clearTime").onclick = function () {
+
+    clearTimeout(timerId);
+    console.log('停止');
+    const element = document.getElementById("clearTime");
+    element.hidden = true;
+
+};
+
+// document.getElementById("displayTime").onchange = function(){
+//     for(let i = 0; i < 6; i++){
+//         clearTimeout(timerId[i]);
+//     }
+// }
 
 //登録ボタンが押された時
 document.getElementById("create").onclick = function () {
 
+    //textのIDを取得
+    let text = document.getElementById("createTitle");
     //入力されたtextを取得
-    let title = document.getElementById("createTitle").value
+    let title = text.value
     console.log(title);
     //option要素を作成
     const elementAtg = document.createElement("option");
@@ -76,12 +121,14 @@ document.getElementById("create").onclick = function () {
     //selectの子要素としてoptionを追加
     document.getElementById("titleName").appendChild(elementAtg);
 
+    text.value = '';
+
     console.log(title);
 }
 
 //bookmarkが変更された時に日時を変える
-document.getElementById("titleName" ).onchange = function(){
-    myAnniversaryDays = document.getElementById("titleName" ).value;
+document.getElementById("titleName").onchange = function () {
+    myAnniversaryDays = document.getElementById("titleName").value;
     console.log(myAnniversaryDays);
     chYear = myAnniversaryDays.getFullYear();
     chMonth = myAnniversaryDays.getMonth();
@@ -89,11 +136,11 @@ document.getElementById("titleName" ).onchange = function(){
     console.log(chYear);
     console.log(chMonth);
     console.log(chDay);
-    document.getElementById("calendar").value = (chYear-chMonth-chDay);
+    document.getElementById("calendar").value = (chYear - chMonth - chDay);
     // const calendarYear = myAnniversaryDays.getFullYear();
     // const calendarMonth = myAnniversaryDays.getMonth();
     // const calendarDay = myAnniversaryDays.getDate();
-   // document.getElementById("calendar").value = calendarYear,calendarMonth,calendarDay;
+    // document.getElementById("calendar").value = calendarYear,calendarMonth,calendarDay;
 }
 
 // 誕生日の時間から現在までの時間を秒で取得
@@ -102,12 +149,12 @@ function myAnniversaryCount(myAnniversaryDays) {
     nowTime = now.getTime();
     const num = document.getElementById('calendar').value;
     myAnniversaryDays = new Date(num);
-    anniversaryTime = myAnniversaryDays.getTime() -jisaSec;
+    anniversaryTime = myAnniversaryDays.getTime() - jisaSec;
     const time = (nowTime - anniversaryTime) / 1000;
     return time;
 }
 
-// 生まれてからの時間を年から表示
+// 時間経過を年から表示
 function myAnniversaryCountFull() {
     calcTime = myAnniversaryCount(myAnniversaryDays);
     sec = Math.floor(calcTime) % 60;
@@ -266,84 +313,259 @@ function myAnniversaryCountFull() {
         }
     }
 
-    document.getElementById('fullTimer').textContent = `${now_anniversaryYear}年${now_anniversaryMonth}ヶ月${now_anniversaryDay}日${hours}時間${min}分${sec}秒経過`;
+    monthTime = String(now_anniversaryMonth).padStart(2, '0');
+    dayTime = String(now_anniversaryDay).padStart(2, '0');
+    hoursTime = String(hours).padStart(2, '0');
+    minTime = String(min).padStart(2, '0');
+    secTime = String(sec).padStart(2, '0');
+    document.getElementById('timer').textContent = `${now_anniversaryYear} 年 ${monthTime} ヶ月 ${dayTime} 日 ${hoursTime} 時間 ${minTime} 分 ${secTime} 秒経過`;
 
     refreshFull();
 }
 
 function refreshFull() {
-    setTimeout(myAnniversaryCountFull, 1000);
+    timerId = setTimeout(myAnniversaryCountFull, 1000);
 }
 
 
-//生まれてからの時間を月から表示
+//時間経過を月から表示
 function myAnniversaryCountMonth() {
-    myTime = countdown(myBirthDays);
-    sec = Math.floor(myTime) % 60;
-    min = Math.floor(myTime / 60) % 60;
-    hours = Math.floor(myTime / 60 / 60) % 24;
-    days = Math.floor(myTime / 60 / 60 / 24);
-    const day = String(days).padStart(2, '0');
-    const hoursTime = String(hours).padStart(2, '0');
-    const minTime = String(min).padStart(2, '0');
-    const secTime = String(sec).padStart(2, '0');
-    document.getElementById('timer').textContent = `${month}月${day}日${hoursTime}時間${minTime}分${secTime}秒経過`;
+    calcTime = myAnniversaryCount(myAnniversaryDays);
+    sec = Math.floor(calcTime) % 60;
+    min = Math.floor(calcTime / 60) % 60;
+    hours = Math.floor(calcTime / 60 / 60) % 24;
+    days = Math.floor(calcTime / 60 / 60 / 24);
+    const nowMonth = now.getMonth() + 1;
+    const nowDay = now.getDate();
+    const nowHours = now.getHours();
+    const nowMin = now.getMinutes();
+    const nowSec = now.getSeconds();
+    const nowYear = now.getFullYear();
+    let now_anniversaryYear = nowYear - anniversaryYear;
+    let now_anniversaryMonth = 0;
+    let now_anniversaryDay = 0;
 
+    // 誕生月より今月の方が大きい時
+    if (nowMonth > anniversaryMonth) {
 
+        // 誕生日より今日の方が大きい
+        if (nowDay > anniversaryDays ||
+            // 日付が同じ時、現在の時間の方が大きい
+            (nowDay === anniversaryDays && (nowHours > anniversaryHours
+                // 時間も同じ時、現在の分の方が大きい
+                || (nowHours === anniversaryHours && (nowMin > anniversaryMin
+                    // 分も同じ時、現在の秒の方が大きい
+                    || (nowMin === anniversaryMin && (nowSec >= anniversarySec))))))
+        ) {
+
+            monthNum = nowMonth - anniversaryMonth;
+            now_anniversaryMonth = now_anniversaryYear * 12 + monthNum;
+            now_anniversaryDay = nowDay - anniversaryDays;
+
+            // 誕生日より今日のほうが小さい
+        } else if (nowDay < anniversaryDays ||
+            // 日付が同じ時、現在の時間の方が小さい
+            (nowDay === anniversaryDays && (nowHours > anniversaryHours
+                // 時間も同じ時、現在の分の方が小さい
+                || (nowHours === anniversaryHours && (nowMin > anniversaryMin
+                    // 分も同じ時、現在の秒の方が小さい
+                    || (nowMin === anniversaryMin && (nowSec >= anniversarySec))))))
+        ) {
+
+            monthNum = nowMonth - anniversaryMonth - 1;
+            now_anniversaryMonth = now_anniversaryYear * 12 + monthNum;
+
+            // 先月が2月だった場合
+            if (nowMonth === 3) {
+
+                // うるう年か判別
+                if (nowYear % 400 === 0 || (nowYear % 100 != 0 && nowYear % 4 === 0)) {
+                    now_anniversaryDay = 29 - (anniversaryDays - nowDay);
+                } else {
+                    now_anniversaryDay = 28 - (anniversaryDays - nowDay);
+                }
+
+                // 先月が30日の月だった場合の日付
+            } else if (nowMonth === 5 || nowMonth === 7 || nowMonth === 10 || nowMonth === 12) {
+                now_anniversaryDay = 30 - (anniversaryDays - nowDay);
+
+                // 先月が31日の月だった場合の日付
+            } else {
+                now_anniversaryDay = 31 - (anniversaryDays - nowDay);
+            }
+        }
+
+        // 誕生月より今月の方が小さい時
+    } else if (nowMonth < anniversaryMonth) {
+
+        now_anniversaryYear -= 1;
+        // 誕生日より今日の方が大きい
+        if (nowDay > anniversaryDays ||
+            // 日付が同じ時、現在の時間の方が大きい
+            (nowDay === anniversaryDays && (nowHours > anniversaryHours
+                // 時間も同じ時、現在の分の方が大きい
+                || (nowHours === anniversaryHours && (nowMin > anniversaryMin
+                    // 分も同じ時、現在の秒の方が大きい
+                    || (nowMin === anniversaryMin && (nowSec >= anniversarySec))))))
+        ) {
+
+            monthNum = nowMonth + (12 - anniversaryMonth);
+            now_anniversaryMonth = now_anniversaryYear * 11 + monthNum;
+            now_anniversaryDay = nowDay - anniversaryDays;
+
+            // 誕生日より今日のほうが小さい
+        } else if (nowDay < anniversaryDays ||
+            // 日付が同じ時、現在の時間の方が小さい
+            (nowDay === anniversaryDays && (nowHours > anniversaryHours
+                // 時間も同じ時、現在の分の方が小さい
+                || (nowHours === anniversaryHours && (nowMin > anniversaryMin
+                    // 分も同じ時、現在の秒の方が小さい
+                    || (nowMin === anniversaryMin && (nowSec >= anniversarySec))))))
+        ) {
+
+            monthNum = nowMonth + (12 - anniversaryMonth) - 1;
+            now_anniversaryMonth = now_anniversaryYear * 11 + monthNum;
+
+            // 先月が2月だった場合
+            if (nowMonth === 3) {
+
+                // うるう年か判別
+                if (nowYear % 400 === 0 || (nowYear % 100 != 0 && nowYear % 4 === 0)) {
+                    now_anniversaryDay = 29 - (anniversaryDays - nowDay);
+                } else {
+                    now_anniversaryDay = 28 - (anniversaryDays - nowDay);
+                }
+
+                // 先月が30日の月だった場合の日付
+            } else if (nowMonth === 5 || nowMonth === 7 || nowMonth === 10 || nowMonth === 12) {
+                now_anniversaryDay = 30 - (anniversaryDays - nowDay);
+
+                // 先月が31日の月だった場合の日付
+            } else {
+                now_anniversaryDay = 31 - (anniversaryDays - nowDay);
+            }
+        }
+        // 誕生月と今月が同じ時
+    } else if (nowMonth === anniversaryMonth) {
+
+        // 誕生日より今日の方が大きい
+        if (nowDay > anniversaryDays ||
+            // 日付が同じ時、現在の時間の方が大きい
+            (nowDay === anniversaryDays && (nowHours > anniversaryHours
+                // 時間も同じ時、現在の分の方が大きい
+                || (nowHours === anniversaryHours && (nowMin > anniversaryMin
+                    // 分も同じ時、現在の秒の方が大きい
+                    || (nowMin === anniversaryMin && (nowSec >= anniversarySec))))))
+        ) {
+            now_anniversaryMonth = now_anniversaryYear * 12;
+            now_anniversaryDay = nowDay - anniversaryDays;
+
+            // 誕生日より今日のほうが小さい
+        } else if (nowDay < anniversaryDays ||
+            // 日付が同じ時、現在の時間の方が小さい
+            (nowDay === anniversaryDays && (nowHours > anniversaryHours
+                // 時間も同じ時、現在の分の方が小さい
+                || (nowHours === anniversaryHours && (nowMin > anniversaryMin
+                    // 分も同じ時、現在の秒の方が小さい
+                    || (nowMin === anniversaryMin && (nowSec >= anniversarySec))))))
+        ) {
+
+            now_anniversaryMonth = now_anniversaryYear * 11 + 11;
+
+            // 先月が2月だった場合
+            if (nowMonth === 3) {
+
+                // うるう年か判別
+                if (nowYear % 400 === 0 || (nowYear % 100 != 0 && nowYear % 4 === 0)) {
+                    now_anniversaryDay = 29 - (anniversaryDays - nowDay);
+                } else {
+                    now_anniversaryDay = 28 - (anniversaryDays - nowDay);
+                }
+
+                // 先月が30日の月だった場合の日付
+            } else if (nowMonth === 5 || nowMonth === 7 || nowMonth === 10 || nowMonth === 12) {
+                now_anniversaryDay = 30 - (anniversaryDays - nowDay);
+
+                // 先月が31日の月だった場合の日付
+            } else {
+                now_anniversaryDay = 31 - (anniversaryDays - nowDay);
+            }
+        }
+    }
+
+    dayTime = String(now_anniversaryDay).padStart(2, '0');
+    hoursTime = String(hours).padStart(2, '0');
+    minTime = String(min).padStart(2, '0');
+    secTime = String(sec).padStart(2, '0');
+    document.getElementById('timer').textContent = `${now_anniversaryMonth} ヶ月 ${dayTime} 日 ${hoursTime} 時間 ${minTime} 分 ${secTime} 秒経過`;
+
+    refreshMonth();
+
+}
+function refreshMonth() {
+    timerId = setTimeout(myAnniversaryCountMonth, 1000);
 }
 
 //生まれてからの時間を日から表示
 function myAnniversaryCountDay() {
-    myTime = countdown(myBirthDays);
-    sec = Math.floor(myTime) % 60;
-    min = Math.floor(myTime / 60) % 60;
-    hours = Math.floor(myTime / 60 / 60) % 24;
-    days = Math.floor(myTime / 60 / 60 / 24);
-    const hoursTime = String(hours).padStart(2, '0');
-    const minTime = String(min).padStart(2, '0');
-    const secTime = String(sec).padStart(2, '0');
-    document.getElementById('timer').textContent = `${days}日${hoursTime}時間${minTime}分${secTime}秒経過`;
+    calcTime = myAnniversaryCount(myAnniversaryDays);
+    sec = Math.floor(calcTime) % 60;
+    min = Math.floor(calcTime / 60) % 60;
+    hours = Math.floor(calcTime / 60 / 60) % 24;
+    days = Math.floor(calcTime / 60 / 60 / 24);
+    hoursTime = String(hours).padStart(2, '0');
+    minTime = String(min).padStart(2, '0');
+    secTime = String(sec).padStart(2, '0');
+    document.getElementById('timer').textContent = `${days} 日 ${hoursTime} 時間 ${minTime} 分 ${secTime} 秒経過`;
 
+    refreshDay();
+}
+
+function refreshDay() {
+    timerId = setTimeout(myAnniversaryCountDay, 1000);
 }
 
 //生まれてからの時間を時から表示
 function myAnniversaryCountHours() {
-    myTime = countdown(myBirthDays);
-    sec = Math.floor(myTime) % 60;
-    min = Math.floor(myTime / 60) % 60;
-    hours = Math.floor(myTime / 60 / 60);
-    const minTime = String(min).padStart(2, '0');
-    const secTime = String(sec).padStart(2, '0');
-    document.getElementById('hoursTimer').textContent = `${hours}時間${minTime}分${secTime}秒経過`;
+    calcTime = myAnniversaryCount(myAnniversaryDays);
+    sec = Math.floor(calcTime) % 60;
+    min = Math.floor(calcTime / 60) % 60;
+    hours = Math.floor(calcTime / 60 / 60);
+    minTime = String(min).padStart(2, '0');
+    secTime = String(sec).padStart(2, '0');
+    document.getElementById('timer').textContent = `${hours} 時間 ${minTime} 分 ${secTime} 秒経過`;
 
+    refreshHours();
 }
 
-// function refreshHours(){
-//     setTimeout(myBirthHours, 1000);
-// }
+function refreshHours() {
+    timerId = setTimeout(myAnniversaryCountHours, 1000);
+}
 
 //生まれてからの時間を分から表示
 function myAnniversaryCountMin() {
-    myTime = countdown(myBirthDays);
-    sec = Math.floor(myTime) % 60;
-    min = Math.floor(myTime / 60);
-    const secTime = String(sec).padStart(2, '0');
-    document.getElementById('minTimer').textContent = `${min}分${secTime}秒経過`;
+    calcTime = myAnniversaryCount(myAnniversaryDays);
+    sec = Math.floor(calcTime) % 60;
+    min = Math.floor(calcTime / 60);
+    secTime = String(sec).padStart(2, '0');
+    document.getElementById('timer').textContent = `${min} 分 ${secTime} 秒経過`;
+
     refreshMin();
 }
 
 function refreshMin() {
-    setTimeout(myBirthMin, 1000);
+    timerId = setTimeout(myAnniversaryCountMin, 1000);
 }
 
 //生まれてからの時間を秒で表示
 function myAnniversaryCountSec() {
-    sec = Math.floor(countdown(myBirthDays));
-    document.getElementById('secTimer').textContent = `${sec}秒経過`;
+    sec = Math.floor(myAnniversaryCount(myAnniversaryDays));
+    document.getElementById('timer').textContent = `${sec}  秒経過`;
+
     refreshSec();
 }
 
 function refreshSec() {
-    setTimeout(myBirthSec, 1000);
+    timerId = setTimeout(myAnniversaryCountSec, 1000);
 }
 
