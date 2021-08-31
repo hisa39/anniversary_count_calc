@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>countdown</title>
+    <title>countCalc</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -14,8 +15,8 @@
     </header>
     <section>
         <form action="#">
-            <input type="date" id="calendar" name="birthDay" value="1990-01-01" max="9999-12-31">
-            <select name="time" id="hours" size="1">
+            <input type="date" id="calendar" name="anniversary" value="1990-01-01" max="9999-12-31">
+            <select name="anniversary" id="hours" size="1">
                 <option selected value="0">0 時</option>
                 <option value="1">1 時</option>
                 <option value="2">2 時</option>
@@ -41,7 +42,7 @@
                 <option value="22">22 時</option>
                 <option value="23">23 時</option>
             </select>
-            <select name="time" id="min" size="1">
+            <select name="anniversary" id="min" size="1">
                 <option selected value="0">0 分</option>
                 <option value="1">1 分</option>
                 <option value="2">2 分</option>
@@ -104,13 +105,25 @@
                 <option value="59">59 分</option>
             </select>
             <button id="calc" type="button">計算</button>
-            <p><span id="fullTimer"></span></p>
-            <input type="text" id="createTitle" size="20" placeholder="タイトル名を入力">
-            <button id="create" type="button">登録</button><br>
-            <select id="titleName" name="titles" size="1">
+            <p>
+                <select name="anniversary" id="displayTime" size="1">
+                    <option value="full" selected>年から表示(ymdhms)</option>
+                    <option value="month">月で表示(mdhms)</option>
+                    <option value="day">日で表示(dhms)</option>
+                    <option value="hours">時間で表示(hms)</option>
+                    <option value="min">分で表示(ms)</option>
+                    <option value="sec">秒で表示(s)</option>
+                </select>
+            </p>
+            <p><span id="timer"></span></p>
+            <button id="clearTime" type="button" hidden>停止</button>
+            <p><input type="text" id="createTitle" size="20" placeholder="タイトル名を入力">
+                <button id="create" type="button">登録</button><br>
+            </p>
+            <select id="titleName" name="anniversary" size="1">
                 <option selected></option>
             </select>
-            <div id="bookmark"></div>
+            <div id="bookmark" name="anniversary"></div>
         </form>
     </section>
     <script src="anniversary.js" charset="UTF-8"></script>
