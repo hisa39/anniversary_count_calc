@@ -1,8 +1,8 @@
 'use strict';
 
 let sec, min, hours, days, month, secTime, minTime, hoursTime, dayTime, monthTime, calcTime, monthNum, timerId;
-let myAnniversaryDays = new Date(1990, 1, 1, 0, 0);
-let anniversaryYear = 1990;
+let myAnniversaryDays = new Date(2000, 1, 1, 0, 0);
+let anniversaryYear = 2000;
 let anniversaryMonth = 1;
 let anniversaryDays = 1;
 let anniversaryHours = 0;
@@ -13,12 +13,18 @@ let jisa = 540;
 let jisaSec = jisa * 60 * 1000;
 let anniversaryTime = 0;
 let nowTime = 0;
+let saveDays = 2000-1-1-0-0;
 
 // 入力された日時を取得
 document.getElementById('calendar').onchange = function () {
+
     const num = document.getElementById('calendar').value;
     myAnniversaryDays = new Date(num);
+    saveDays = num;
+
     console.log(myAnniversaryDays);
+    console.log(num);
+    
     // 西暦を取得
     anniversaryYear = myAnniversaryDays.getFullYear();
 
@@ -54,7 +60,12 @@ document.getElementById('min').onchange = function () {
 
 //ボタンが押されたらfunctionを実行
 document.getElementById("calc").onclick = function () {
+
     let displayTime = document.getElementById("displayTime").value;
+    
+
+    console.log(document.getElementById("calendar").value);
+
     if (displayTime === "full") {
 
         myAnniversaryCountFull();
@@ -112,8 +123,8 @@ document.getElementById("create").onclick = function () {
     //option要素を作成
     const elementAtg = document.createElement("option");
     //optionにvalue属性を追加し登録された日付を値にする
-    elementAtg.value = myAnniversaryDays;
-    console.log(myAnniversaryDays);
+    elementAtg.value = saveDays;
+    console.log(saveDays);
     //Nodeに変換
     const str = document.createTextNode(title);
     //optionの子要素に追加
@@ -123,24 +134,36 @@ document.getElementById("create").onclick = function () {
 
     text.value = '';
 
-    console.log(title);
+    //titleと日付をcookieに保存
+    let cookieName = 'anniv=' + title + ';';
+    let cookieValue = 'day' + saveDays + ';';
+    document.cookie = cookieName + cookieValue;
+
 }
 
 //bookmarkが変更された時に日時を変える
 document.getElementById("titleName").onchange = function () {
-    myAnniversaryDays = document.getElementById("titleName").value;
-    console.log(myAnniversaryDays);
-    chYear = myAnniversaryDays.getFullYear();
-    chMonth = myAnniversaryDays.getMonth();
-    chDay = myAnniversaryDays.getDate();
-    console.log(chYear);
-    console.log(chMonth);
-    console.log(chDay);
-    document.getElementById("calendar").value = (chYear - chMonth - chDay);
-    // const calendarYear = myAnniversaryDays.getFullYear();
-    // const calendarMonth = myAnniversaryDays.getMonth();
-    // const calendarDay = myAnniversaryDays.getDate();
-    // document.getElementById("calendar").value = calendarYear,calendarMonth,calendarDay;
+
+    //選択された値を取得
+    const titleValue = document.getElementById("titleName").value;
+    //値をカレンダーに代入
+    document.getElementById("calendar").value = titleValue;
+
+    console.log(titleValue);
+
+    //値を日付に設定
+    myAnniversaryDays = new Date(titleValue);
+    
+    // 西暦を取得
+    anniversaryYear = myAnniversaryDays.getFullYear();
+
+    // 誕生月を取得
+    anniversaryMonth = myAnniversaryDays.getMonth() + 1;
+
+    // 誕生日を取得
+    anniversaryDays = myAnniversaryDays.getDate();
+
+
 }
 
 // 誕生日の時間から現在までの時間を秒で取得
