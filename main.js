@@ -136,7 +136,7 @@ document.getElementById("create").onclick = function () {
 
     //titleと日付をcookieに保存
     let cookieName = 'anniv=' + title + ';';
-    let cookieValue = 'day' + saveDays + ';';
+    let cookieValue = 'day=' + saveDays + ';';
     document.cookie = cookieName + cookieValue;
 
 }
