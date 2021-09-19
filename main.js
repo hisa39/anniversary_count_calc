@@ -42,7 +42,11 @@ function onload() {
         }
 
     }
+    //cookieをリストに反映
     for (var i = 0; i < cookieName.length; i++){
+        console.log(cookieName[i]);
+        console.log(cookieValue[i]);
+
         //option要素を作成
         const elementAtg = document.createElement('option');
         //optionにcookieのvalueを登録
@@ -56,6 +60,18 @@ function onload() {
     }
     
 }
+//cookie削除
+document.getElementById('delete').onclick = function() {
+    var now = new Date();
+    now.setFullYear(now.getFullYear() -1);
+    for(var i of cookiesArray){
+        console.log(i);
+        var iArray = i.split('=');
+        document.cookie = iArray[0] + '=;max-age=0'
+        document.cookie = iArray[0] + '=;expires=' + now.toGMTString();
+    }
+}
+
 
 
 // 入力された日時を取得
@@ -148,12 +164,6 @@ document.getElementById('clearTime').onclick = function () {
     element.hidden = true;
 
 };
-
-// document.getElementById("displayTime").onchange = function(){
-//     for(let i = 0; i < 6; i++){
-//         clearTimeout(timerId[i]);
-//     }
-// }
 
 //登録ボタンが押された時
 document.getElementById('create').onclick = function () {
