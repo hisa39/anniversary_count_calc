@@ -46,9 +46,9 @@ function onload() {
         //option要素を作成
         const elementAtg = document.createElement('option');
         //optionにcookieのvalueを登録
-        elementAtg.value = cookieValue;
+        elementAtg.value = cookieValue[i];
         //cookieのnameをNodeに変換
-        const str = document.createTextNode(cookieName);
+        const str = document.createTextNode(cookieName[i]);
         //optionの子要素に追加
         elementAtg.appendChild(str);
         //selectの子要素としてoptionを追加
