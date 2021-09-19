@@ -14,11 +14,15 @@ let jisa = 540;
 let jisaSec = jisa * 60 * 1000;
 let anniversaryTime = 0;
 let nowTime = 0;
+const cookies = decodeURIComponent(document.cookie); //cookieを読み込み
+
+if(cookies != null){
+    onload();
+}
 
 //cookieを取得
 function onload() {
-    //cookieを読み込み
-    const cookies = decodeURIComponent(document.cookie);
+    
     //name = valueの形で配列に代入
     const cookieList = cookies.split(';');
 
@@ -34,6 +38,11 @@ function onload() {
             }else{
                 cookieValue = parseInt(item[j]);
             }
+
+        }
+
+    }
+    for (var i = 0; i < cookieName.length; i++){
         //option要素を作成
         const elementAtg = document.createElement('option');
         //optionにcookieのvalueを登録
@@ -44,8 +53,6 @@ function onload() {
         elementAtg.appendChild(str);
         //selectの子要素としてoptionを追加
         document.getElementById('titleName').appendChild(elementAtg);
-        }
-
     }
     
 }
