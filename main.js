@@ -34,10 +34,6 @@ function onload() {
             }else{
                 cookieValue = parseInt(item[j]);
             }
-
-        }
-
-    }
         //option要素を作成
         const elementAtg = document.createElement('option');
         //optionにcookieのvalueを登録
@@ -48,6 +44,9 @@ function onload() {
         elementAtg.appendChild(str);
         //selectの子要素としてoptionを追加
         document.getElementById('titleName').appendChild(elementAtg);
+        }
+
+    }
     
 }
 
