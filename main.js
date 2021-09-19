@@ -18,7 +18,7 @@ let nowTime = 0;
 //cookieを取得
 function onload() {
     //cookieを読み込み
-    const cookies = document.cookie;
+    const cookies = decodeURIComponent(document.cookie);
     //name = valueの形で配列に代入
     const cookieList = cookies.split(';');
 
