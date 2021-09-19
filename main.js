@@ -67,7 +67,7 @@ document.getElementById('delete').onclick = function() {
     for(var i of cookiesArray){
         console.log(i);
         var iArray = i.split('=');
-        document.cookie = iArray[0] + '=;max-age=0'
+        document.cookie = iArray[0] + '=;max-age=0';
         document.cookie = iArray[0] + '=;expires=' + now.toGMTString();
     }
 }
