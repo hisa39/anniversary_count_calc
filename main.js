@@ -1,7 +1,8 @@
 'use strict';
 
+let saveDays = document.getElementById('calendar').value;
 let sec, min, hours, days, month, secTime, minTime, hoursTime, dayTime, monthTime, calcTime, monthNum, timerId;
-let myAnniversaryDays = new Date(2000, 1, 1, 0, 0);
+let myAnniversaryDays = new Date(saveDays);
 let anniversaryYear = 2000;
 let anniversaryMonth = 1;
 let anniversaryDays = 1;
@@ -13,7 +14,43 @@ let jisa = 540;
 let jisaSec = jisa * 60 * 1000;
 let anniversaryTime = 0;
 let nowTime = 0;
-let saveDays = 2000-1-1-0-0;
+
+//cookieを取得
+function onload() {
+    //cookieを読み込み
+    const cookies = document.cookie;
+    //name = valueの形で配列に代入
+    const cookieList = cookies.split(';');
+
+    let cookieValue = '';
+    let cookieName = '';
+    //nameとvalueごとに配列に代入
+    for (var i = 0; i < cookieList.length; i++) {
+        var item = cookieList[i].split('=');
+        //nameとvalueそれぞれ別の配列に代入
+        for (var j = 0; j < item.length; j++){
+            if(j === 0 || j % 2 === 0){
+                cookieName = item[j];
+            }else{
+                cookieValue = parseInt(item[j]);
+            }
+
+        }
+
+    }
+        //option要素を作成
+        const elementAtg = document.createElement('option');
+        //optionにcookieのvalueを登録
+        elementAtg.value = cookieValue;
+        //cookieのnameをNodeに変換
+        const str = document.createTextNode(cookieName);
+        //optionの子要素に追加
+        elementAtg.appendChild(str);
+        //selectの子要素としてoptionを追加
+        document.getElementById('titleName').appendChild(elementAtg);
+    
+}
+
 
 // 入力された日時を取得
 document.getElementById('calendar').onchange = function () {
@@ -24,7 +61,7 @@ document.getElementById('calendar').onchange = function () {
 
     console.log(myAnniversaryDays);
     console.log(num);
-    
+
     // 西暦を取得
     anniversaryYear = myAnniversaryDays.getFullYear();
 
@@ -59,49 +96,49 @@ document.getElementById('min').onchange = function () {
 }
 
 //ボタンが押されたらfunctionを実行
-document.getElementById("calc").onclick = function () {
+document.getElementById('calc').onclick = function () {
 
-    let displayTime = document.getElementById("displayTime").value;
-    
+    let displayTime = document.getElementById('displayTime').value;
 
-    console.log(document.getElementById("calendar").value);
 
-    if (displayTime === "full") {
+    console.log(document.getElementById('calendar').value);
+
+    if (displayTime === 'full') {
 
         myAnniversaryCountFull();
 
-    } else if (displayTime === "month") {
+    } else if (displayTime === 'month') {
 
         myAnniversaryCountMonth();
 
-    } else if (displayTime === "day") {
+    } else if (displayTime === 'day') {
 
         myAnniversaryCountDay();
 
-    } else if (displayTime === "hours") {
+    } else if (displayTime === 'hours') {
 
         myAnniversaryCountHours();
 
-    } else if (displayTime === "min") {
+    } else if (displayTime === 'min') {
 
         myAnniversaryCountMin();
 
-    } else if (displayTime === "sec") {
+    } else if (displayTime === 'sec') {
 
         myAnniversaryCountSec();
     }
 
-    const element = document.getElementById("clearTime");
+    const element = document.getElementById('clearTime');
     element.hidden = false;
 
 }
 
 //停止ボタンが押された時の処理
-document.getElementById("clearTime").onclick = function () {
+document.getElementById('clearTime').onclick = function () {
 
     clearTimeout(timerId);
     console.log('停止');
-    const element = document.getElementById("clearTime");
+    const element = document.getElementById('clearTime');
     element.hidden = true;
 
 };
@@ -113,15 +150,15 @@ document.getElementById("clearTime").onclick = function () {
 // }
 
 //登録ボタンが押された時
-document.getElementById("create").onclick = function () {
+document.getElementById('create').onclick = function () {
 
     //textのIDを取得
-    let text = document.getElementById("createTitle");
+    let text = document.getElementById('createTitle');
     //入力されたtextを取得
     let title = text.value
     console.log(title);
     //option要素を作成
-    const elementAtg = document.createElement("option");
+    const elementAtg = document.createElement('option');
     //optionにvalue属性を追加し登録された日付を値にする
     elementAtg.value = saveDays;
     console.log(saveDays);
@@ -130,30 +167,27 @@ document.getElementById("create").onclick = function () {
     //optionの子要素に追加
     elementAtg.appendChild(str);
     //selectの子要素としてoptionを追加
-    document.getElementById("titleName").appendChild(elementAtg);
+    document.getElementById('titleName').appendChild(elementAtg);
 
     text.value = '';
 
+
     //titleと日付をcookieに保存
-    //let cookieName = 'anniv=' + title + ';';
-    //let cookieValue = 'day=' + saveDays + ';';
-    document.cookie = title + '=' + saveDays;
+    document.cookie = encodeURIComponent(title) + '=' + encodeURIComponent(saveDays);
 
 }
 
 //bookmarkが変更された時に日時を変える
-document.getElementById("titleName").onchange = function () {
+document.getElementById('titleName').onchange = function () {
 
     //選択された値を取得
-    const titleValue = document.getElementById("titleName").value;
+    const titleValue = document.getElementById('titleName').value;
     //値をカレンダーに代入
-    document.getElementById("calendar").value = titleValue;
-
-    console.log(titleValue);
+    document.getElementById('calendar').value = titleValue;
 
     //値を日付に設定
     myAnniversaryDays = new Date(titleValue);
-    
+
     // 西暦を取得
     anniversaryYear = myAnniversaryDays.getFullYear();
 
