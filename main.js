@@ -25,15 +25,20 @@ function onload() {
     
     //name = valueの形で配列に代入
     const cookieList = cookies.split(';');
+    console.log(document.cookie);
+    console.log('zzzzzz');
+    console.log(cookieList);
 
     let cookieValue = '';
     let cookieName = '';
     //nameとvalueごとに配列に代入
     for (var i = 0; i < cookieList.length; i++) {
+        console.log(cookieList[i]);
         var item = cookieList[i].split('=');
         //nameとvalueそれぞれ別の配列に代入
         for (var j = 0; j < item.length; j++){
             if(j === 0 || j % 2 === 0){
+                console.log(item[j]);
                 cookieName = item[j];
             }else{
                 cookieValue = parseInt(item[j]);
