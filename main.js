@@ -37,13 +37,7 @@ function onload() {
         var item = cookieList[i].split('=');
         //nameとvalueそれぞれ別の配列に代入
         for (var j = 0; j < item.length; j++){
-            if(j === 0 || j % 2 === 0){
-                
-                cookieName = item[j];
-            }else{
-                console.log(item[j]);
-                console.log('cookieValueは'+cookieValue);
-                cookieValue = parseInt(item[j]);
+            if(j != 0 || j % 2 != 0){
 
         //option要素を作成
         const elementAtg = document.createElement('option');
@@ -60,22 +54,6 @@ function onload() {
         }
 
     }
-    // //cookieをリストに反映
-    // for (var i = 0; i < cookieName.length; i++){
-    //     console.log(cookieName[i]);
-    //     console.log(cookieValue[i]);
-
-    //     //option要素を作成
-    //     const elementAtg = document.createElement('option');
-    //     //optionにcookieのvalueを登録
-    //     elementAtg.value = cookieValue[i];
-    //     //cookieのnameをNodeに変換
-    //     const str = document.createTextNode(cookieName[i]);
-    //     //optionの子要素に追加
-    //     elementAtg.appendChild(str);
-    //     //selectの子要素としてoptionを追加
-    //     document.getElementById('titleName').appendChild(elementAtg);
-    // }
     
 }
 //cookie削除
