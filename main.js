@@ -39,8 +39,11 @@ function onload() {
         for (var j = 0; j < item.length; j++){
             if(j === 0 || j % 2 === 0){
                 console.log(item[j]);
+                console.log('cookieNameは'+cookieName);
                 cookieName = item[j];
             }else{
+                console.log(item[j]);
+                console.log('cookieValueは'+cookieValue);
                 cookieValue = parseInt(item[j]);
             }
 
