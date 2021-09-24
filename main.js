@@ -17,22 +17,51 @@ let nowTime = 0;
 const cookies = decodeURIComponent(document.cookie); //cookieを読み込み
 let cookieList;
 
-if(cookies != null){
-    onload();
-}
+// if(cookies !== null){
+//     onload();
+// }
 
 //cookieを取得
-function onload() {
-    
-    //name = valueの形で配列に代入
-    cookieList = cookies.split(';');
-    console.log(document.cookie);
-    console.log('zzzzzz');
-    console.log(cookieList);
+// function onload() {
 
-    let cookieValue = '';
-    let cookieName = '';
-    //nameとvalueごとに配列に代入
+//     //nameとvalueごとに配列に代入
+//     for (var i = 0; i < cookieList.length; i++) {
+//         console.log(cookieList[i]);
+//         var item = cookieList[i].split('=');
+//         //nameとvalueそれぞれ別の配列に代入
+//         for (var j = 0; j < item.length; j++){
+//             if(j != 0 || j % 2 != 0){
+
+//         //option要素を作成
+//         const elementAtg = document.createElement('option');
+//         //optionにcookieのvalueを登録
+//         elementAtg.value = item[j];
+//         //cookieのnameをNodeに変換
+//         const str = document.createTextNode(item[j-1]);
+//         //optionの子要素に追加
+//         elementAtg.appendChild(str);
+//         //selectの子要素としてoptionを追加
+//         document.getElementById('titleName').appendChild(elementAtg);
+//             }
+
+//         }
+
+//     }
+    
+// }
+//cookie全削除
+document.getElementById('delete').onclick = function() {
+    var now = new Date();
+    now.setFullYear(now.getFullYear() -1);
+    for(let i of cookieList){
+        console.log(i);
+        let cookieArray = i.split('=');
+        document.cookie = cookieArray[0] + '=;max-age=0';
+        document.cookie = cookieArray[0] + '=;expires=' + now.toGMTString();
+    }
+}
+//cookie選択削除
+document.getElementById('choiceDelete').onclick = function() {
     for (var i = 0; i < cookieList.length; i++) {
         console.log(cookieList[i]);
         var item = cookieList[i].split('=');
@@ -49,26 +78,13 @@ function onload() {
         //optionの子要素に追加
         elementAtg.appendChild(str);
         //selectの子要素としてoptionを追加
-        document.getElementById('titleName').appendChild(elementAtg);
+        document.getElementById('bookmarkAnniv').appendChild(elementAtg);
             }
-
         }
-
     }
+    document.getElementById('bookmarkList').hidden = false;
     
 }
-//cookie削除
-document.getElementById('delete').onclick = function() {
-    var now = new Date();
-    now.setFullYear(now.getFullYear() -1);
-    for(var i of cookieList){
-        console.log(i);
-        var cookieArray = i.split('=');
-        document.cookie = cookieArray[0] + '=;max-age=0';
-        document.cookie = cookieArray[0] + '=;expires=' + now.toGMTString();
-    }
-}
-
 
 
 // 入力された日時を取得
@@ -163,6 +179,7 @@ document.getElementById('clearTime').onclick = function () {
 };
 
 //登録ボタンが押された時
+
 document.getElementById('create').onclick = function () {
 
     //textのIDを取得
@@ -181,13 +198,13 @@ document.getElementById('create').onclick = function () {
     elementAtg.appendChild(str);
     //selectの子要素としてoptionを追加
     document.getElementById('titleName').appendChild(elementAtg);
-
     text.value = '';
 
 
     //titleと日付をcookieに保存
     document.cookie = encodeURIComponent(title) + '=' + encodeURIComponent(saveDays);
 
+    // this.onload();
 }
 
 //bookmarkが変更された時に日時を変える
