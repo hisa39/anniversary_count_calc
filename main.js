@@ -63,6 +63,8 @@ document.getElementById('delete').onclick = function() {
 }
 //cookie選択削除
 document.getElementById('choiceDelete').onclick = function() {
+
+    cookieList = cookies.split(';');
     for (var i = 0; i < cookieList.length; i++) {
         console.log(cookieList[i]);
         var item = cookieList[i].split('=');
