@@ -17,38 +17,38 @@ let nowTime = 0;
 const cookies = decodeURIComponent(document.cookie); //cookieを読み込み
 let cookieList;
 
-// if(cookies !== null){
-//     onload();
-// }
+if(cookies !== null){
+    onload();
+}
 
 //cookieを取得
-// function onload() {
+function onload() {
 
-//     //nameとvalueごとに配列に代入
-//     for (var i = 0; i < cookieList.length; i++) {
-//         console.log(cookieList[i]);
-//         var item = cookieList[i].split('=');
-//         //nameとvalueそれぞれ別の配列に代入
-//         for (var j = 0; j < item.length; j++){
-//             if(j != 0 || j % 2 != 0){
+    //nameとvalueごとに配列に代入
+    for (var i = 0; i < cookieList.length; i++) {
+        console.log(cookieList[i]);
+        var item = cookieList[i].split('=');
+        //nameとvalueそれぞれ別の配列に代入
+        for (var j = 0; j < item.length; j++){
+            if(j != 0 || j % 2 != 0){
 
-//         //option要素を作成
-//         const elementAtg = document.createElement('option');
-//         //optionにcookieのvalueを登録
-//         elementAtg.value = item[j];
-//         //cookieのnameをNodeに変換
-//         const str = document.createTextNode(item[j-1]);
-//         //optionの子要素に追加
-//         elementAtg.appendChild(str);
-//         //selectの子要素としてoptionを追加
-//         document.getElementById('titleName').appendChild(elementAtg);
-//             }
+        //option要素を作成
+        const elementAtg = document.createElement('option');
+        //optionにcookieのvalueを登録
+        elementAtg.value = item[j];
+        //cookieのnameをNodeに変換
+        const str = document.createTextNode(item[j-1]);
+        //optionの子要素に追加
+        elementAtg.appendChild(str);
+        //selectの子要素としてoptionを追加
+        document.getElementById('titleName').appendChild(elementAtg);
+            }
 
-//         }
+        }
 
-//     }
+    }
     
-// }
+}
 //cookie全削除
 document.getElementById('delete').onclick = function() {
     var now = new Date();
