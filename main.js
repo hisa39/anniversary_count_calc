@@ -61,7 +61,7 @@ function onload() {
 document.getElementById('delete').onclick = function() {
     var now = new Date();
     now.setFullYear(now.getFullYear() -1);
-    for(var i=0; i < cookieList.length; i++){
+    for(var i of cookieList){
         console.log(i);
         var cookieArray = i.split('=');
         document.cookie = cookieArray[0] + '=;max-age=0';
