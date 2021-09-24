@@ -15,6 +15,7 @@ let jisaSec = jisa * 60 * 1000;
 let anniversaryTime = 0;
 let nowTime = 0;
 const cookies = decodeURIComponent(document.cookie); //cookieを読み込み
+let cookieList;
 
 if(cookies != null){
     onload();
@@ -24,7 +25,7 @@ if(cookies != null){
 function onload() {
     
     //name = valueの形で配列に代入
-    const cookieList = cookies.split(';');
+    cookieList = cookies.split(';');
     console.log(document.cookie);
     console.log('zzzzzz');
     console.log(cookieList);
@@ -60,11 +61,11 @@ function onload() {
 document.getElementById('delete').onclick = function() {
     var now = new Date();
     now.setFullYear(now.getFullYear() -1);
-    for(var i of cookiesArray){
+    for(var i of cookieList){
         console.log(i);
-        var iArray = i.split('=');
-        document.cookie = iArray[0] + '=;max-age=0';
-        document.cookie = iArray[0] + '=;expires=' + now.toGMTString();
+        var cookieArray = i.split('=');
+        document.cookie = cookieArray[0] + '=;max-age=0';
+        document.cookie = cookieArray[0] + '=;expires=' + now.toGMTString();
     }
 }
 
