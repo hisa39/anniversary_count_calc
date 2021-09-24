@@ -82,7 +82,8 @@ document.getElementById('choiceDelete').onclick = function() {
             }
         }
     }
-    document.getElementById('bookmarkList').hidden = false;
+    let element = document.getElementById('bookmarkList');
+    element.hidden = false;
     
 }
 
