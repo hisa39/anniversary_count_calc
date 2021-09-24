@@ -81,7 +81,7 @@ document.getElementById('choiceDelete').onclick = function() {
         //optionの子要素に追加
         elementAtg.appendChild(str);
         //selectの子要素としてoptionを追加
-        document.getElementById('bookmarkAnniv').appendChild(elementAtg);
+        document.getElementById('bookmarkList').appendChild(elementAtg);
             }
         }
     }
