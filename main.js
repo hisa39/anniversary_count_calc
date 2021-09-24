@@ -24,7 +24,8 @@ if(cookies !== null){
 //cookieを取得
 function onload() {
 
-    //nameとvalueごとに配列に代入
+    cookieList = cookies.split(';');
+     //nameとvalueごとに配列に代入
     for (var i = 0; i < cookieList.length; i++) {
         console.log(cookieList[i]);
         var item = cookieList[i].split('=');
