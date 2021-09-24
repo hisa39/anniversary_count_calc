@@ -120,11 +120,13 @@
             <p><input type="text" id="createTitle" size="20" placeholder="タイトル名を入力">
                 <button id="create" type="button">登録</button><br>
             </p>
-            <select id="titleName" name="anniversary" size="1">
+            <select id="titleName" name="bookmarkAnniv" size="1">
                 <option selected></option>
             </select>
-            <div id="bookmark" name="anniversary"></div>
-            <p><button id="delete" type="button">削除</button></p>
+            <p><button id="delete" type="button">全削除</button><button id="choiceDelete" type="button">選択削除</button></p>
+            <select name="bookmarkAnniv" id="bookmarkList" hidden>
+                <option selected></option>
+            </select>
         </form>
     </section>
     <script src="main.js" charset="UTF-8"></script>
