@@ -52,14 +52,17 @@ function onload() {
 }
 //cookie全削除
 document.getElementById('delete').onclick = function() {
-    var now = new Date();
-    now.setFullYear(now.getFullYear() -1);
-    for(let i of cookieList){
-        console.log(i);
-        let cookieArray = i.split('=');
-        document.cookie = cookieArray[0] + '=;max-age=0';
-        document.cookie = cookieArray[0] + '=;expires=' + now.toGMTString();
-    }
+    
+    if(window.confirm('本当に削除しますか？')){
+        var now = new Date();
+        now.setFullYear(now.getFullYear() -1);
+        for(let i of cookieList){
+            console.log(i);
+            let cookieArray = i.split('=');
+            document.cookie = cookieArray[0] + '=;max-age=0';
+            document.cookie = cookieArray[0] + '=;expires=' + now.toGMTString();
+        }  
+    } 
 }
 //cookie選択削除
 document.getElementById('choiceDelete').onclick = function() {
